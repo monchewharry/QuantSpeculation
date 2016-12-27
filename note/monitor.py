@@ -19,8 +19,8 @@ def monitorPrice(id,upexceed,dropexceed):
 		print 'normal'
 	sched=Timer(3, monitorPrice, (id,upexceed,dropexceed))
 	sched.start()
-	if t > 3:#stop condition
-		sched.cancel()
+#	if t > 3:#stop condition
+#		sched.cancel()
 
-Timer(3, monitorPrice, ('600606',9,8.6)).start()
+Timer(3, monitorPrice, ('150201',0.54,0.51)).start()
 

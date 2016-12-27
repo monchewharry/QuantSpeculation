@@ -1,10 +1,12 @@
 # QuantSpeculation
 
 1. data manipulation 
-2. basic timeseries analysis
-3. ARMA framework
-4. trade signal 
+2. techical indicator: ups/downs,MA,Volatility,RSI
+3. ARMA framework + Cointegration
+4. trade signal: Trending 
 5. backtest
+6. realtime monitor: `treading.timer`
+7. pattern recognization
 
 Reference:
 
