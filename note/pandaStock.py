@@ -81,7 +81,7 @@ def pandas_candlestick_ohlc(dat, stick = "day", otherseries = None):
     # Create the candelstick chart
     candlestick_ohlc(ax, list(zip(list(date2num(plotdat.index.tolist())), plotdat["Open"].tolist(), plotdat["High"].tolist(),
                       plotdat["Low"].tolist(), plotdat["Close"].tolist())),
-                      colorup = "black", colordown = "red", width = stick * .4)
+                      colorup = "red", colordown = "green", width = stick * .4)
  
     # Plot other series (such as moving averages) as lines
     if otherseries != None:
