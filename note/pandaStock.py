@@ -7,9 +7,11 @@ from matplotlib.dates import date2num, DateFormatter, WeekdayLocator,\
     DayLocator, MONDAY
 from matplotlib.finance import candlestick_ohlc
  
+#for the price data from pandas yahoo
 def pandas_candlestick_ohlc(dat, stick = "day", otherseries = None):
     """
     :param dat: pandas DataFrame object with datetime64 index, and float columns "Open", "High", "Low", and "Close", likely created via DataReader from "yahoo"
+
     :param stick: A string or number indicating the period of time covered by a single candlestick. Valid string inputs include "day", "week", "month", and "year", ("day" default), and any numeric input indicates the number of trading days included in a period
     :param otherseries: An iterable that will be coerced into a list, containing the columns of dat that hold other series to be plotted as lines
  
@@ -20,6 +22,10 @@ def pandas_candlestick_ohlc(dat, stick = "day", otherseries = None):
     dayFormatter = DateFormatter('%d')      # e.g., 12
  
     # Create a new DataFrame which includes OHLC data for each period specified by stick input
+
+    dat.columns = [x.title() for x in dat.columns]#compatible from tushare
+    dat.index=[pd.to_datetime(date) for date in dat.index]
+
     transdat = dat.loc[:,["Open", "High", "Low", "Close"]]
     if (type(stick) == str):
         if stick == "day":
@@ -47,6 +53,7 @@ def pandas_candlestick_ohlc(dat, stick = "day", otherseries = None):
         transdat["stick"] = [np.floor(i / stick) for i in range(len(transdat.index))]
         grouped = transdat.groupby("stick")
         plotdat = pd.DataFrame({"Open": [], "High": [], "Low": [], "Close": []}) # Create empty data frame containing what will be plotted
+
         for name, group in grouped:
             plotdat = plotdat.append(pd.DataFrame({"Open": group.iloc[0,0],
                                         "High": max(group.High),
@@ -87,6 +94,8 @@ def pandas_candlestick_ohlc(dat, stick = "day", otherseries = None):
     plt.setp(plt.gca().get_xticklabels(), rotation=45, horizontalalignment='right')
  
     plt.show()
+
+
 
 def ohlc_adj(dat):
 	'we can use the closing price and the adjusted closing price to adjust all prices in the series.'
