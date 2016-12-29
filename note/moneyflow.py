@@ -10,6 +10,9 @@ import datetime
 def adline(ohclv,stick):
 	ohclv.columns = [x.title() for x in ohclv.columns]
 	ohclv.index = [pd.to_datetime(date) for date in ohclv.index]
+	if ohclv.index[0] > ohclv.index[1]:#tushare need reversing
+		ohclv = ohclv.reindex(index=ohclv.index[::-1])
+
 	transdat = ohclv.loc[:,["Open", "High", "Low", "Close","Volume"]]
 	# Create a new DataFrame newdat which includes OHLCV data for each period specified by period input
 	if (type(stick) == str):
@@ -22,6 +25,7 @@ def adline(ohclv,stick):
 	            transdat["week"] = pd.to_datetime(transdat.index).map(lambda x: x.isocalendar()[1]) # Identify weeks
 	        elif stick == "month":
 	            transdat["month"] = pd.to_datetime(transdat.index).map(lambda x: x.month) # Identify months
+
 	        transdat["year"] = pd.to_datetime(transdat.index).map(lambda x: x.isocalendar()[0]) # Identify years
 	        grouped = transdat.groupby(list(set(["year",stick]))) # Group by year and other appropriate variable
 
@@ -52,8 +56,8 @@ def adline(ohclv,stick):
 	
 	else:
 	    raise ValueError('Valid inputs to argument "stick" include the strings "day", "week", "month", "year", or a positive integer')
-	newdat.loc[:,'CLV'] = (newdat['Close'] - newdat['Low'] - 
+	newdat.loc[:,'Clv'] = (newdat['Close'] - newdat['Low'] - 
                newdat['High'] + newdat['Close'])/(newdat['High']-newdat['Low'])
-	newdat.loc[:,'ADLine'] = newdat['CLV'] * newdat['Volume']
+	newdat.loc[:,'Adline'] = newdat['Clv'] * newdat['Volume']
 	return newdat
 

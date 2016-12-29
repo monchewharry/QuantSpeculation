@@ -17,14 +17,13 @@ def pandas_candlestick_ohlc(dat, stick = "day", otherseries = None):
  
     This will show a Japanese candlestick plot for stock data stored in dat, also plotting other series if passed.
     """
-    mondays = WeekdayLocator(MONDAY)        # major ticks on the mondays
-    alldays = DayLocator()              # minor ticks on the days
-    dayFormatter = DateFormatter('%d')      # e.g., 12
  
     # Create a new DataFrame which includes OHLC data for each period specified by stick input
 
     dat.columns = [x.title() for x in dat.columns]#compatible from tushare
     dat.index=[pd.to_datetime(date) for date in dat.index]
+    if dat.index[0] > dat.index[1]:
+        dat = dat.reindex(index=dat.index[::-1])
 
     transdat = dat.loc[:,["Open", "High", "Low", "Close"]]
     if (type(stick) == str):
@@ -63,9 +62,12 @@ def pandas_candlestick_ohlc(dat, stick = "day", otherseries = None):
  
     else:
         raise ValueError('Valid inputs to argument "stick" include the strings "day", "week", "month", "year", or a positive integer')
- 
- 
+
     # Set plot parameters, including the axis object ax used for plotting
+    mondays = WeekdayLocator(MONDAY)    # major ticks on the mondays
+    alldays = DayLocator()              # minor ticks on the days
+    dayFormatter = DateFormatter('%d')      # e.g., 12
+    
     fig, ax = plt.subplots()
     fig.subplots_adjust(bottom=0.2)
     if plotdat.index[-1] - plotdat.index[0] < pd.Timedelta('730 days'):
@@ -79,9 +81,10 @@ def pandas_candlestick_ohlc(dat, stick = "day", otherseries = None):
     ax.grid(True)
  
     # Create the candelstick chart
-    candlestick_ohlc(ax, list(zip(list(date2num(plotdat.index.tolist())), plotdat["Open"].tolist(), plotdat["High"].tolist(),
-                      plotdat["Low"].tolist(), plotdat["Close"].tolist())),
-                      colorup = "red", colordown = "green", width = stick * .4)
+    candlestick_ohlc(ax, list(zip(list(date2num(plotdat.index.tolist())),
+                        plotdat["Open"].tolist(), plotdat["High"].tolist(),
+                        plotdat["Low"].tolist(), plotdat["Close"].tolist()) ),
+                    colorup = "red", colordown = "green", width = stick * .4)
  
     # Plot other series (such as moving averages) as lines
     if otherseries != None:
