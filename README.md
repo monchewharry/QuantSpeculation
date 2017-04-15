@@ -16,4 +16,5 @@ Reference:
 3. TaLib for python <https://github.com/mrjbq7/ta-lib>,
 4. patterns &stats<http://thepatternsite.com/CandleEntry.html>
 5. candlestick patterns<http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/CandlesticksHome.html>
+6. visualization: plotly.python
 
