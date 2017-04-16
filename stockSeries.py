@@ -82,11 +82,4 @@ class stockSeries(pd.core.frame.DataFrame):
                 result[['macd',signalwindow]].iloc[::-1].plot()
 
             
-#todaydate=datetime.datetime.now()
-#start=todaydate-datetime.timedelta(days=200)
-#stock_name='601668'
-#base_stock = tu.get_hist_data(stock_name,start=start.strftime('%Y-%m-%d'))
-#a=stockSeries({'close':base_stock['close'],'open':base_stock['open'],
-#               'high':base_stock['high'],'low':base_stock['low']})      
-        
-        
+   

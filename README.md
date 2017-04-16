@@ -1,20 +1,29 @@
 # QuantSpeculation
 
-1. data manipulation: pandas/tushare 
-2. techical indicator: ups/downs,MA/Volatility/RSI
-3. ARMA framework/Cointegration
-4. trade strategy: Trending/MACrossover
-5. backtest
-6. realtime monitor: `treading.timer`
-7. pattern recognization: peak/critical/price pattern
-8. money flow detection: A/D
+1. stockSeries class: `stockSeries.py`
+2. backtest class: `backtest.py`
+3. ohlc matplotlib function: `ohlcvPlot.py`
 
-Reference:
+### example
 
-1. TuShare<http://tushare.org/trading.html>
-2. Statmodels<http://statsmodels.sourceforge.net/devel/examples/notebooks/generated/tsa_arma.html>
-3. TaLib for python <https://github.com/mrjbq7/ta-lib>,
-4. patterns &stats<http://thepatternsite.com/CandleEntry.html>
-5. candlestick patterns<http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/CandlesticksHome.html>
-6. visualization: plotly.python
+```
+todaydate=datetime.datetime.now()
+start=todaydate-datetime.timedelta(days=200)
+stock_name='601668'
+base_stock =tu.get_hist_data(stock_name,start=start.strftime('%Y-%m-%d'))
+a=stockSeries({'close':base_stock['close'],
+'open':base_stock['open'],
+'high':base_stock['high'],
+'low':base_stock['low']})         
+```
 
+```
+a.macd(12,26,9)
+a.plot_macd(12,26,9,ohlcinclude=False,stock_name)
+```  
+
+```
+m=backtest(data_out=a.macd(12,26,9),price=a.close)
+m.backtest(trade_size=100,ifshort=True)
+m.plot_curve()
+```
