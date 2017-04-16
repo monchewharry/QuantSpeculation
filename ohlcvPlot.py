@@ -60,7 +60,6 @@ def pandas_candlestick_ohlcv(dat, stick = "day", otherseries = None, adline= Non
     dayFormatter = DateFormatter('%d')      # e.g., 12
     
     fig = plt.figure(facecolor='#07000d',figsize=(15, 8))
-
     ax = plt.subplot2grid((8,4), (1,0), rowspan=4, colspan=4, axisbg='#07000d')
 
     if plotdat.index[-1] - plotdat.index[0] < pd.Timedelta('730 days'):
